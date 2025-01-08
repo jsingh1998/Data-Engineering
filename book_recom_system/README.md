@@ -25,8 +25,7 @@ This project implements a **Book Recommendation System** that leverages cloud an
 ## 📂 Project Structure
 - **`Book Recommendation System Project.ipynb`**: Jupyter Notebook detailing data ingestion, preprocessing, exploratory data analysis (EDA), and recommendation algorithms.
 - **`adls_scripts/`**: Scripts for interacting with Azure Data Lake Storage Gen2.
-- **`adf_pipeline.json`**: Configuration for the Azure Data Factory pipeline used for data ingestion.
-- **`databricks_notebooks/`**: Notebooks used in Databricks for distributed data processing and ML model development.
+
 
 ## 📊 Data
 The project uses datasets containing:

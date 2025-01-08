@@ -1,101 +1,89 @@
-# SpotifyETL2
-It is an end to end project from getting data from Spotify API to having it on Snowflakes 
+# Spotify_ETL  
+A complete pipeline project to extract Spotify data, process it, and load it into Snowflake.  
 
+# Spotify Data Pipeline with AWS and Snowflake  
 
+## Project Overview  
 
-# Spotify Data Pipeline with AWS and Snowflake
+This project involves building a data pipeline to fetch, process, and store Spotify's top 100 Hindi songs data in the Snowflake data warehouse. The pipeline leverages AWS services like Lambda, S3, Glue, and Snowpipe, with Apache Spark handling the data transformations.  
 
-## Overview
+## Prerequisites  
 
-This project aims to create a data pipeline to extract, transform, and load (ETL) Spotify's top 100 Hindi songs data into Snowflake data warehouse using various AWS services such as Lambda, S3, Glue, and Snowpipe. The pipeline utilizes Apache Spark for transformation to explore its capabilities in distributed processing.
+Before proceeding, ensure you have:  
 
-## Prerequisites
+- Access to required AWS services  
+- A Snowflake account  
+- A Spotify Developer account to get API credentials  
+- Basic understanding of AWS Lambda, S3, Glue, Snowflake, and Apache Spark  
 
-Before setting up the pipeline, ensure you have the following:
+## Architecture  
 
-- Access to AWS services
-- Access to Snowflake data warehouse
-- Spotify Developer account for API keys
-- Basic knowledge of AWS Lambda, S3, Glue, Snowflake, and Apache Spark
+<img width="524" alt="image" src="https://github.com/viraniriaz/SpotifyETL2/assets/82742908/44750134-ee33-4274-a484-b6a0baf5b9ad">  
 
-## Architecture
+The pipeline architecture includes the following steps:  
 
-<img width="524" alt="image" src="https://github.com/viraniriaz/SpotifyETL2/assets/82742908/44750134-ee33-4274-a484-b6a0baf5b9ad">
+1. **Spotify API Integration**: Acquire API credentials (Client ID and Secret) from Spotify Developer.  
+2. **Lambda Extraction**: Use AWS Lambda to extract the top 100 Hindi songs from the Spotify API.  
+3. **S3 Storage**: Save extracted data into an Amazon S3 bucket.  
+4. **AWS Glue Transformation**: Process and clean data using Apache Spark in Glue.  
+5. **Snowflake Loading**: Leverage Snowpipe to load processed data from S3 into Snowflake.  
+6. **Automated Notifications**: Set up event notifications for Snowpipe from S3 to ensure continuous data ingestion.  
 
-The architecture of the data pipeline is as follows:
+## Setup Instructions  
 
-1. **Spotify API Integration**: Retrieve API keys from Spotify Developer account.
-2. **Lambda Function**: Use Lambda to extract data from Spotify API and fetch the top 100 Hindi songs.
-3. **S3 Bucket**: Store the extracted data in an S3 bucket.
-4. **AWS Glue**: Utilize Glue for transformation using Apache Spark code.
-5. **Snowflake Integration**: Load transformed data into Snowflake data warehouse using Snowpipe.
-6. **Event Notification**: Set up event notifications from Snowpipe to S3 bucket for continuous data loading into Snowflake tables.
+1. **Get Spotify API Credentials**:  
+   - Visit the Spotify Developer portal and log in or sign up.  
+   - Create a new application to generate Client ID and Client Secret.  
 
-## Setup Instructions
+2. **AWS Setup**:  
+   - Develop a Lambda function for API extraction.  
+   - Configure an S3 bucket to store raw and processed data.  
+   - Set up an AWS Glue job to transform the data using Apache Spark scripts.  
+   - Integrate S3 with Snowflake.  
 
-1. **Spotify API Keys**:
-   - Sign up or log in to the Spotify Developer Dashboard.
-   - Create a new application to obtain API keys (Client ID and Client Secret).
+3. **Deploy Code**:  
+   - Upload and deploy the Lambda function for data extraction.  
+   - Add Apache Spark scripts for transformation in AWS Glue.  
 
-2. **AWS Configuration**:
-   - Set up Lambda function to extract data from Spotify API.
-   - Create an S3 bucket to store extracted and transformed data.
-   - Configure Glue job to perform transformation using Spark code.
-   - Set up Snowflake integration using AWS S3 storage integration.
+4. **Configure Snowflake**:  
+   - Create a Snowflake stage for S3 integration.  
+   - Use Snowpipe to automate loading data into Snowflake tables.  
 
-3. **Code Deployment**:
-   - Deploy the Lambda function code for data extraction.
-   - Upload Apache Spark code for transformation to Glue job.
-   
-4. **Snowflake Configuration**:
-   - Configure Snowflake to utilize AWS S3 as an external stage.
-   - Set up Snowpipe to load data from S3 bucket into Snowflake tables.
+## Usage Instructions  
 
-## Usage
+1. **Data Extraction**:  
+   - The Lambda function periodically fetches data from Spotify's API.  
+   - Extracted data is stored in the designated S3 bucket.  
 
-1. **Data Extraction**:
-   - Lambda function will trigger data extraction from Spotify API periodically.
-   - Extracted data will be stored in the configured S3 bucket.
+2. **Data Transformation**:  
+   - AWS Glue processes the raw data using Spark scripts.  
+   - The cleaned and structured data is stored back in S3.  
 
-2. **Transformation**:
-   - Glue job will automatically run Spark code for data transformation.
-   - Transformed data will be stored back in the S3 bucket.
+3. **Data Loading**:  
+   - Snowpipe automatically ingests transformed data from S3 into Snowflake for further analysis.  
 
-3. **Data Loading**:
-   - Snowpipe will continuously load transformed data from S3 bucket into Snowflake tables.
-  
-     
-## Transformation Process
+## Transformation Steps  
 
-The transformation process is implemented using Apache Spark in AWS Glue. Below are the key steps involved in the transformation:
+The data transformation is handled by Apache Spark in AWS Glue and involves the following:  
 
-1. **Extracting Albums Information**:
-   - The `process_albums` function extracts information about albums from the Spotify data.
-   - It selects relevant attributes such as album ID, name, release date, total tracks, and URL.
-   - Duplicate albums are removed based on their unique ID.
+1. **Album Details**:  
+   - Extract album details such as ID, name, release date, total tracks, and URL.  
+   - Remove duplicate records based on album ID.  
 
-2. **Extracting Artists Information**:
-   - The `process_artists` function extracts information about artists from the Spotify data.
-   - It explodes the array of artists within each track to create a row for each artist.
-   - Relevant attributes such as artist ID, name, and external URL are selected.
-   - Duplicate artists are removed based on their unique ID.
+2. **Artist Information**:  
+   - Extract artist details from the track data.  
+   - Create separate rows for each artist and retain attributes like ID, name, and URL.  
+   - Remove duplicate artist records based on ID.  
 
-3. **Extracting Songs Information**:
-   - The `process_songs` function extracts information about songs from the Spotify data.
-   - It explodes the array of items to create a row for each song.
-   - Relevant attributes such as song ID, name, duration, URL, popularity, and added date are selected.
-   - Duplicate songs are removed based on their unique ID.
-   - The added date is converted from a string to a date type.
+3. **Track Information**:  
+   - Extract song details from the API data.  
+   - Expand arrays of tracks into separate rows, retaining fields such as ID, name, duration, popularity, and date added.  
+   - Convert added date to a date format and remove duplicates.  
 
-4. **Writing Transformed Data to S3**:
-   - The `write_to_s3` function converts the transformed DataFrame back to a DynamicFrame.
-   - Transformed data is written to S3 in CSV format, partitioned by date.
-  
-     
-## Contributors
+4. **Save to S3**:  
+   - Transformed data is converted back to a DynamicFrame and saved to S3 in CSV format.  
+   - Files are partitioned by date for better organization.  
 
-- Riaz Virani, Darshil Parmer
+## Contributors  
 
-
-
-
+- Jasvinder Singh  

@@ -84,6 +84,6 @@ The data transformation is handled by Apache Spark in AWS Glue and involves the 
    - Transformed data is converted back to a DynamicFrame and saved to S3 in CSV format.  
    - Files are partitioned by date for better organization.  
 
-## Contributors  
+## Contributor
 
 - Jasvinder Singh  

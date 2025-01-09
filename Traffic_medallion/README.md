@@ -9,7 +9,9 @@ This project implements a **Medallion Architecture** for processing and analyzin
 
 ## 🏗️ Architecture Design: Medallion Layers
 
-(images/pipeline.png)
+
+<img width="524" alt="image" src="https://github.com/jsingh1998/Data-Engineering/blob/master/Traffic_medallion/images/pipeline.png">  
+
 
 
 ### 1. **Bronze Layer**

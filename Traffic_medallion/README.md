@@ -9,6 +9,9 @@ This project implements a **Medallion Architecture** for processing and analyzin
 
 ## 🏗️ Architecture Design: Medallion Layers
 
+(images/pipeline.png)
+
+
 ### 1. **Bronze Layer**
 - **Purpose**: Acts as the raw data storage layer, ingesting data in its original format.
 - **Implementation**: 
